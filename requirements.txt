@@ -1,1 +1,3 @@
+gpiozero
 requests
+RPi.GPIO
