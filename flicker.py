@@ -16,5 +16,5 @@ def get_mortality_data():
 if __name__ == '__main__':
     print("Flicker is running")
     data = get_mortality_data()
-    deaths = data['deaths']
-    print(f"Got deaths: {deaths}")
+    deaths = data['summary']['deaths']
+    print(f"Number of deaths: {deaths}")
