@@ -1,10 +1,10 @@
-import client_api
+import client
 import pprint
 
 
 if __name__ == '__main__':
     print("Flicker is running")
-    api = client_api.ClientAPI()
+    api = client.Client()
 
     message = "Flicker!"
     print("Posting message: ", message)

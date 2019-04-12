@@ -3,7 +3,7 @@ import os
 import requests
 
 
-class ClientAPI:
+class Client:
     DEFAULT_URL = "https://flicker.appspot.com"
     DEFAULT_HEADERS = {
         'Content-Type': 'application/json',
@@ -11,8 +11,8 @@ class ClientAPI:
     }
 
     def __init__(self, api_url=None, extra_headers=None):
-        self._api_url = api_url if api_url is not None else ClientAPI.DEFAULT_URL
-        self._headers = ClientAPI.DEFAULT_HEADERS
+        self._api_url = api_url if api_url is not None else Client.DEFAULT_URL
+        self._headers = Client.DEFAULT_HEADERS
         if extra_headers is not None:
             for k, v in extra_headers.items():
                 self._headers[k] = v
