@@ -10,7 +10,7 @@ from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 
-connection_string = "mongodb+srv://{}:{}@{}.mongodb.net".format(
+connection_string = "mongodb://{}:{}@{}.mongodb.net".format(
     settings.MONGO_USER, settings.MONGO_PASS, settings.MONGO_CLUSTER)
 
 CORS(app)
