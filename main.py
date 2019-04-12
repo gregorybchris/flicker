@@ -62,11 +62,13 @@ def write_message():
           Code: 400
           Message: invalid_param_message
     """
-    request_data = request.get_json()
-    if 'message' not in request_data:
+    body = request.get_json()
+    if body is None:
+        return error('request_body_not_found', 403)
+    if 'message' not in body:
         return error('missing_param_message', 403)
 
-    text = request_data['message']
+    text = body['message']
     message = Message(text=text)
     message.save()
 
