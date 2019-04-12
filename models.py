@@ -14,7 +14,7 @@ class Model(Document):
     def save(self, *args, **kwargs):
         """
         Override the save method.
-        
+
         All models have a `created` timestamp and an `enabled` flag.
         """
         if not self.created:
