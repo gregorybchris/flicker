@@ -6,16 +6,19 @@ from flask import jsonify, request, Flask
 from flask_cors import CORS, cross_origin
 from models import Message, LightStat
 from mongoengine import DoesNotExist, connect
-from os import environ
 
 app = Flask(__name__)
 
-mongo_connection_format = "mongodb://{}:{}@{}.mongodb.net"
-if environ.get('MONGO_SRV'):
-    mongo_connection_format = "mongodb+srv://{}:{}@{}.mongodb.net"
+mongo_connection_format = ("mongodb://{}:{}@"
+                           "cluster0-shard-00-00-6dexo.gcp.mongodb.net:27017,"
+                           "cluster0-shard-00-01-6dexo.gcp.mongodb.net:27017,"
+                           "cluster0-shard-00-02-6dexo.gcp.mongodb.net:27017"
+                           "/flicker?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true")
 
 connection_string = mongo_connection_format.format(
-    settings.MONGO_USER, settings.MONGO_PASS, settings.MONGO_CLUSTER)
+    settings.MONGO_USER, settings.MONGO_PASS)
+
+print("Connection: ", connection_string)
 
 CORS(app)
 connect(settings.MONGO_DATABASE, host=connection_string)
