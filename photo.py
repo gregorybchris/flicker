@@ -4,10 +4,10 @@ import time
 import numpy as np
 
 
-def probe_photoresistor(pin):
+def probe(pin):
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
-    time.sleep(0.1)
+    time.sleep(0.2)
     GPIO.setup(pin, GPIO.IN)
 
     count = 0
@@ -16,24 +16,40 @@ def probe_photoresistor(pin):
     return count
 
 
-def take_light_reading(pin, n_probes=20):
-    measurements = [probe_photoresistor(pin) for _ in range(n_probes)]
+def take_light_reading(pin, n_probes=10):
+    measurements = np.array([probe(pin) for _ in range(n_probes)])
+
+    # The first probe will be different due to the capacitor charging
+    measurements = measurements[1:]
+
     mean = np.mean(measurements)
+    std = np.std(measurements)
+    print("mean: ", mean)
+    print("std: ", std)
     return mean
 
 
+def gpio_safe(func):
+    def wrapper():
+        try:
+            func()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            GPIO.cleanup()
+            print("Cleaned up GPIO")
+    return wrapper
+
+
+@gpio_safe
 def run():
     pin = 18
-    reading = take_light_reading(pin)
-    print("Reading: ", reading)
+    while True:
+        reading = take_light_reading(pin, n_probes=20)
+        # print(reading)
 
 
 if __name__ == '__main__':
-    print("Running Photo")
+    print("Reading photoresistor...")
     GPIO.setmode(GPIO.BOARD)
-    try:
-        run()
-    except KeyboardInterrupt:
-        pass
-    finally:
-        GPIO.cleanup()
+    run()
