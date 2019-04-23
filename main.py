@@ -13,7 +13,8 @@ mongo_connection_format = ("mongodb://{}:{}@"
                            "cluster0-shard-00-00-6dexo.gcp.mongodb.net:27017,"
                            "cluster0-shard-00-01-6dexo.gcp.mongodb.net:27017,"
                            "cluster0-shard-00-02-6dexo.gcp.mongodb.net:27017"
-                           "/flicker?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true")
+                           "/flicker?ssl=true&replicaSet=Cluster0-shard-0"
+                           "&authSource=admin&retryWrites=true")
 
 connection_string = mongo_connection_format.format(
     settings.MONGO_USER, settings.MONGO_PASS)
