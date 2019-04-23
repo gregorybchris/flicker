@@ -1,3 +1,4 @@
+import argparse
 import time
 
 import numpy as np
@@ -49,5 +50,22 @@ def run_ultrasonic(api):
 if __name__ == '__main__':
     print("Flicker is running")
 
+    parser = argparse.ArgumentParser(description='Flicker monitoring')
+
+    parser.add_argument('--message', '-m', help='Message to save')
+    parser.add_argument('--type', '-t', default='ultrasonic',
+                        choices=['photo', 'ultrasonic'],
+                        help='Type of monitoring to perform')
+
+    args = parser.parse_args()
+
     api = Client()
-    run_ultrasonic(api)
+
+    if args.message is not None:
+        send_message(api, args.message)
+        quit()
+
+    if args.type == 'photo':
+        run_photo(api)
+    elif args.type == 'ultrasonic':
+        run_ultrasonic(api)
