@@ -1,6 +1,8 @@
 import pprint
 import time
 
+import numpy as np
+
 from client import Client
 from gpio_utilities import gpio_safe
 from ultrasonic import UltrasonicSensor
@@ -28,9 +30,10 @@ def run_ultrasonic(api):
     print("Ultrasonic sensor initialized")
     while True:
         reading = sensor.probe()
+        reading = np.round(reading, 4)
         print(f"{reading}cm")
         time.sleep(3)
-        api.post_ultrasonic(reading)
+        # api.post_ultrasonic(reading)
 
 
 if __name__ == '__main__':
