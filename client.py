@@ -27,12 +27,21 @@ class Client:
         # TODO: Format and pass GET params
         return requests.get(url=endpoint)
 
+    # Message
     def post_message(self, message):
         return self._post('message', {'message': message})
 
     def get_messages(self):
         return self._get('messages')
 
+    # Photo
+    def post_photo(self, reading):
+        return self._post('photo', {'reading': reading})
+
+    def get_photo(self):
+        return self._get('photos')
+
+    # Ultrasonic
     def post_ultrasonic(self, reading):
         return self._post('sonic', {'reading': reading})
 
