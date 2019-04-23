@@ -41,8 +41,8 @@ class Message(Model):
         }
 
 
-class LightStat(Model):
-    """Model for a light reading."""
+class PhotoStat(Model):
+    """Model for a photo sensor reading."""
 
     reading = FloatField()
     description = StringField()

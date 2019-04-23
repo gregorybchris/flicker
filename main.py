@@ -4,7 +4,7 @@ import settings
 
 from flask import jsonify, request, Flask
 from flask_cors import CORS, cross_origin
-from models import Message, SonicStat
+from models import Message, PhotoStat, SonicStat
 from mongoengine import DoesNotExist, connect
 
 app = Flask(__name__)
@@ -49,7 +49,7 @@ def hello():
 
 
 @app.route('/message', methods=['POST'])
-def write_message():
+def post_message():
     """Write a message to the DB.
 
     Request params:
@@ -85,17 +85,35 @@ def get_messages():
     return (jsonify(response), 200)
 
 
+@app.route('/photo', methods=['POST'])
+def post_photo_stat():
+    """Write a photo stat to the DB."""
+    body = request.get_json()
+    if body is None:
+        return error('request_body_not_found', 403)
+    if 'reading' not in body:
+        return error('missing_param_reading', 403)
+
+    reading = body['reading']
+    stat = PhotoStat(reading=reading)
+    stat.save()
+
+    response = {'stat': stat.serialize()}
+    return (jsonify(response), 200)
+
+
+@app.route('/photos', methods=['GET'])
+def get_photo_stats():
+    """Get a list of all photo stats in the DB."""
+    stats = PhotoStat.objects()
+    serialized = [m.serialize() for m in stats if m.enabled]
+    response = {'stats': serialized}
+    return (jsonify(response), 200)
+
+
 @app.route('/sonic', methods=['POST'])
 def post_sonic_stat():
-    """Write a sonic stat to the DB.
-
-    Request params:
-        * reading: STRING
-    Error responses:
-        * Reason: Missing param reading
-          Code: 403
-          Message: missing_param_reading
-    """
+    """Write a sonic stat to the DB."""
     body = request.get_json()
     if body is None:
         return error('request_body_not_found', 403)
