@@ -54,3 +54,18 @@ class LightStat(Model):
             'reading': self.reading,
             'description': self.description
         }
+
+
+class SonicStat(Model):
+    """Model for an ultrasonic reading."""
+
+    reading = FloatField()
+    description = StringField()
+
+    def serialize(self):
+        """Serialize the model to a dictionary."""
+        return {
+            'id': str(self.id),
+            'reading': self.reading,
+            'description': self.description
+        }
