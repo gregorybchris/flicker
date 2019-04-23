@@ -17,11 +17,24 @@ class Client:
             for k, v in extra_headers.items():
                 self._headers[k] = v
 
-    def post_message(self, message):
-        endpoint = os.path.join(self._api_url, 'message')
-        body = json.dumps({'message': message})
+    def _post(self, endpoint, content):
+        endpoint = os.path.join(self._api_url, endpoint)
+        body = json.dumps(content)
         return requests.post(url=endpoint, headers=self._headers, data=body)
 
-    def get_messages(self):
-        endpoint = os.path.join(self._api_url, 'messages')
+    def _get(self, endpoint, params=None):
+        endpoint = os.path.join(self._api_url, endpoint)
+        # TODO: Format and pass GET params
         return requests.get(url=endpoint)
+
+    def post_message(self, message):
+        return self._post('message', {'message': message})
+
+    def get_messages(self):
+        return self._get('messages')
+
+    def post_ultrasonic(self, reading):
+        return self._post('sonic', {'reading': reading})
+
+    def get_ultrasonics(self):
+        return self._get('sonics')
