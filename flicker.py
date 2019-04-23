@@ -29,7 +29,7 @@ def run_ultrasonic(api):
     while True:
         reading = sensor.probe()
         print(f"{reading}cm")
-        time.sleep(10)
+        time.sleep(3)
         api.post_ultrasonic(reading)
 
 

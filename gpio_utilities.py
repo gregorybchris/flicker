@@ -8,9 +8,9 @@ def gpio_safe(func):
     Decorate a function with this to safely cleanup
     when a program using GPIO is terminated.
     """
-    def wrapper():
+    def wrapper(*args, **kwargs):
         try:
-            func()
+            func(*args, **kwargs)
         except KeyboardInterrupt:
             GPIO.cleanup()
     return wrapper
