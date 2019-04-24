@@ -36,19 +36,6 @@ html, body {
 	height: 100%;
 }
 
-.content {
-	width: 100%;
-	height: calc(~"100% - @{header-height}");
-}
-
-.no-select {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	cursor: default;
-}
-
 ::-moz-selection {
     background: @jumbo-grey;
 }
@@ -65,7 +52,6 @@ html, body {
     border-bottom: 5px solid rgb(72, 145, 206);
 	position: relative;
 	z-index: 2;
-	.no-select();
 }
 
 .header .title {
@@ -87,12 +73,15 @@ html, body {
 /* ~ ~ ~ Content ~ ~ ~ */
 
 .content {
-    padding: 30px 20px;
+	width: 100%;
+	height: calc(~"100% - @{header-height}");
+	padding: 30px 20px;
+	box-sizing: border-box;
 }
 
 #plot {
 	width: 500px;
-	height: 500px;
+	height: 250px;
 	margin: 0px auto;
 }
 
