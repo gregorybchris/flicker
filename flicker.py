@@ -43,8 +43,8 @@ def run_ultrasonic(api):
         reading = sensor.probe()
         reading = np.round(reading, 4)
         print(f"{reading}cm")
-        time.sleep(delay)
         api.post_ultrasonic(reading)
+        time.sleep(delay)
 
 
 if __name__ == '__main__':

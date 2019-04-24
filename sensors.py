@@ -38,7 +38,8 @@ class PhotoSensor(Sensor):
     def probe(self):
         measurements = [self._trial() for _ in range(PhotoSensor.N_TRIALS)]
 
-        # The first probe will be different due to the capacitor charging
+        # The first measurement will be different due to the
+        # time it takes for the capacitor to charge
         measurements = measurements[1:]
         return np.mean(measurements)
 
