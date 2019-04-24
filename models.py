@@ -52,7 +52,8 @@ class PhotoStat(Model):
         return {
             'id': str(self.id),
             'reading': self.reading,
-            'description': self.description
+            'description': self.description,
+            'created': self.created
         }
 
 
@@ -67,5 +68,6 @@ class SonicStat(Model):
         return {
             'id': str(self.id),
             'reading': self.reading,
-            'description': self.description
+            'description': self.description,
+            'created': self.created
         }
