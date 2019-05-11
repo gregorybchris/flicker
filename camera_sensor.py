@@ -11,7 +11,7 @@ class CameraSensor:
         self._camera = picamera.PiCamera()
 
     def probe(self, full_image=False):
-        filename = 'photo-{}.jpg'.format(uuid.uuid4())
+        filename = f'photo-{uuid.uuid4()}.jpg'
         filepath = os.path.join(self._temp_dir, filename)
         self._camera.capture(filepath)
         image = Image.open(filepath)

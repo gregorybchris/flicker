@@ -1,13 +1,18 @@
 import argparse
 import camera_sensor
-import photo_sensor
+import logging_utilities
 import time
-import ultrasonic_sensor
 
 import numpy as np
 
 from client import Client
-from gpio_utilities import gpio_safe
+
+
+PHOTO_SENSOR = 'photo'
+CAMERA_SENSOR = 'camera'
+ULTRASONIC_SENSOR = 'ultrasonic'
+
+DEFAULT_READING_DECIMALS = 4
 
 
 def send_message(api, message):
@@ -15,49 +20,16 @@ def send_message(api, message):
     print("Posted message: ", response.status_code, response.json())
 
 
-@gpio_safe
-def run_photo(api):
-    pin = 18
-
-    sensor = photo_sensor.PhotoSensor(pin=pin)
-    print("Photo sensor initialized")
-
-    while True:
-        reading = sensor.probe()
-        reading = np.round(reading, 4)
-        print(f"{reading}")
-        time.sleep(0.5)
-        api.post_photo(reading)
-
-
-@gpio_safe
-def run_ultrasonic(api):
-    trigger_pin = 17
-    echo_pin = 18
-    delay = 5
-
-    sensor = ultrasonic_sensor.UltrasonicSensor(trigger_pin=trigger_pin,
-                                                echo_pin=echo_pin)
-    print("Ultrasonic sensor initialized")
-
-    while True:
-        reading = sensor.probe()
-        reading = np.round(reading, 4)
-        print(f"{reading}cm")
-        api.post_ultrasonic(reading)
-        time.sleep(delay)
-
-
-def run_camera(api):
-    delay = 5
-
+def run(api, delay):
+    logger = logging_utilities.get_logger()
     sensor = camera_sensor.CameraSensor()
-    print("Camera sensor initialized")
-
+    logger.info("Camera sensor initialized")
     while True:
         reading = sensor.probe()
+        reading = np.round(reading, DEFAULT_READING_DECIMALS)
         print(f"{reading}")
-        # api.post_camera(reading)
+        logger.info(f"{reading}")
+        api.post_photo(reading)
         time.sleep(delay)
 
 
@@ -67,9 +39,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Flicker monitoring')
 
     parser.add_argument('--message', '-m', help='Message to save')
-    parser.add_argument('--type', '-t', default='camera',
-                        choices=['photo', 'ultrasonic', 'camera'],
+    parser.add_argument('--type', '-t', default=CAMERA_SENSOR,
+                        choices=[PHOTO_SENSOR, ULTRASONIC_SENSOR, CAMERA_SENSOR],
                         help='Type of monitoring to perform')
+    parser.add_argument('--delay', '-d', type=int, default=30,
+                        help='Delay between sensor probes')
 
     args = parser.parse_args()
 
@@ -79,9 +53,5 @@ if __name__ == '__main__':
         send_message(api, args.message)
         quit()
 
-    if args.type == 'photo':
-        run_photo(api)
-    elif args.type == 'ultrasonic':
-        run_ultrasonic(api)
-    elif args.type == 'camera':
-        run_camera(api)
+    elif args.type == CAMERA_SENSOR:
+        run(api, args.delay)
