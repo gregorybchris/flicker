@@ -1,5 +1,6 @@
 import logging
 
+
 def get_logger(filename='flicker_debug.log'):
     logger = logging.getLogger(__name__)
     handler = logging.FileHandler(filename)
