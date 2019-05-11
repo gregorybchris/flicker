@@ -2,3 +2,4 @@ gpiozero
 requests
 RPi.GPIO
 numpy
+pillow
