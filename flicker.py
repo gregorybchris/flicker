@@ -21,7 +21,7 @@ def run(options, api):
         reading = sensor.probe()
         reading = np.round(reading, 4)
         print(f"{reading}")
-        logger.info(f"{reading}")
+        logger.info(f"Camera reading: {reading}")
         if not options.dry:
             api.post_photo(reading)
         time.sleep(options.delay)
