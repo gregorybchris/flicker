@@ -19,8 +19,7 @@ def send_message(api, message):
 def run_photo(api):
     pin = 18
 
-    sensor = photo_sensor.PhotoSensor()
-    sensor.setup(pin=pin)
+    sensor = photo_sensor.PhotoSensor(pin=pin)
     print("Photo sensor initialized")
 
     while True:
@@ -37,8 +36,8 @@ def run_ultrasonic(api):
     echo_pin = 18
     delay = 5
 
-    sensor = ultrasonic_sensor.UltrasonicSensor()
-    sensor.setup(trigger_pin=trigger_pin, echo_pin=echo_pin)
+    sensor = ultrasonic_sensor.UltrasonicSensor(trigger_pin=trigger_pin,
+                                                echo_pin=echo_pin)
     print("Ultrasonic sensor initialized")
 
     while True:
@@ -53,7 +52,6 @@ def run_camera(api):
     delay = 5
 
     sensor = camera_sensor.CameraSensor()
-    sensor.setup()
     print("Camera sensor initialized")
 
     while True:

@@ -2,13 +2,12 @@ import time
 
 import numpy as np
 import RPi.GPIO as GPIO
-import sensor_base
 
 
-class PhotoSensor(sensor_base.Sensor):
+class PhotoSensor:
     N_TRIALS = 20
 
-    def setup(self, pin=18):
+    def __init__(self, pin=18):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin, GPIO.OUT)
         self._pin = pin

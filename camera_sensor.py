@@ -1,13 +1,12 @@
 import os
 import picamera
-import sensor_base
 import uuid
 
 from PIL import Image, ImageStat
 
 
-class CameraSensor(sensor_base.Sensor):
-    def setup(self, temp_dir='/tmp'):
+class CameraSensor:
+    def __init__(self, temp_dir='/tmp'):
         self._temp_dir = temp_dir
         self._camera = picamera.PiCamera()
 

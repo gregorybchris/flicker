@@ -1,11 +1,10 @@
 import time
-import sensor_base
 
 import RPi.GPIO as GPIO
 
 
-class UltrasonicSensor(sensor_base.Sensor):
-    def setup(self, trigger_pin=17, echo_pin=18):
+class UltrasonicSensor:
+    def __init__(self, trigger_pin=17, echo_pin=18):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(trigger_pin, GPIO.OUT)
         GPIO.setup(echo_pin, GPIO.IN)
