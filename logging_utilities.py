@@ -2,7 +2,7 @@ import logging
 
 def get_logger(filename='flicker_debug.log'):
     logger = logging.getLogger(__name__)
-    f_handler = logging.FileHandler(filename)
-    # f_handler.setLevel(logging.ERROR)
-    logger.addHandler(f_handler)
+    handler = logging.FileHandler(filename)
+    logger.setLevel(logging.INFO)
+    logger.addHandler(handler)
     return logger

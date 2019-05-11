@@ -20,7 +20,7 @@ def send_message(api, message):
     print("Posted message: ", response.status_code, response.json())
 
 
-def run(api, delay):
+def run(options, api):
     logger = logging_utilities.get_logger()
     sensor = camera_sensor.CameraSensor()
     logger.info("Camera sensor initialized")
@@ -29,8 +29,9 @@ def run(api, delay):
         reading = np.round(reading, DEFAULT_READING_DECIMALS)
         print(f"{reading}")
         logger.info(f"{reading}")
-        api.post_photo(reading)
-        time.sleep(delay)
+        if not options.dry:
+            api.post_photo(reading)
+        time.sleep(options.delay)
 
 
 if __name__ == '__main__':
@@ -44,7 +45,9 @@ if __name__ == '__main__':
                         help='Type of monitoring to perform')
     parser.add_argument('--delay', '-d', type=int, default=30,
                         help='Delay between sensor probes')
-
+    parser.add_argument('--dry', default=False, action='store_true',
+                        help='Dry run with new API writes')
+    
     args = parser.parse_args()
 
     api = Client()
@@ -54,4 +57,4 @@ if __name__ == '__main__':
         quit()
 
     elif args.type == CAMERA_SENSOR:
-        run(api, args.delay)
+        run(args, api)
