@@ -1,0 +1,5 @@
+__pycache__/
+settings.py
+*.pyc
+lib
+.DS_Store
